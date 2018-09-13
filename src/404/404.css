@@ -1,0 +1,22 @@
+.errorpage {
+    margin: 0 auto;
+    padding: 50px 0;
+}
+.errorpage>div {
+    overflow: auto;
+    margin: auto;
+}
+
+.errorpage > div > img {
+    width: 25%;
+    display: block;
+    float: left;
+}
+
+.errorpage > div > * {
+    margin-left: 300px;
+}
+
+.errorpage > div > h1 {
+    margin-top: 100px;
+}

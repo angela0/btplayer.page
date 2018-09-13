@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import cookie from "react-cookies";
 import { Player } from 'video-react';
 import { Drawer, Button, List, message } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { canPlay } from '../utils/utils';
+
 import "video-react/dist/video-react.css";
 import 'antd/lib/drawer/style/css';
 import './Player.css';
@@ -19,17 +20,13 @@ class VPlayer extends Component {
         const index = search.get("index");
         this.info = JSON.parse(localStorage.getItem(this.hash));
         this.state = {
+            login: this.props.login,
             index: index ? index : 0,
             drawVisible: false,
             noinfo: this.info ? false : true,
         };
     }
 
-    componentWillMount() {
-        const id = cookie.load('id');
-        let login = id ? true : false;
-        this.setState({login});
-    }
     componentDidMount() {
         document.title = "Player"
 
@@ -50,6 +47,9 @@ class VPlayer extends Component {
 
     handleOnclick = (e) => {
         const index = e.target.getAttribute("index");
+        if (index === this.state.index) {
+            return
+        }
         this.setState({index, drawVisible: false});
     }
 
@@ -74,9 +74,12 @@ class VPlayer extends Component {
                 }} /> }
 
                 <div className="container">
-                    <section className="app__body">
-                        <div className="app__video">
+                    <section>
+                        <div className="Player-video">
                             <Player
+                                fluid={false}
+                                width={791}
+                                height={444}
                                 ref="player"
                                 playsInline
                                 src={`/btp/file?hash=${this.hash}&index=${index}`}
@@ -93,7 +96,7 @@ class VPlayer extends Component {
                             <List
                                 dataSource={this.info ? this.info.files : []}
                                 renderItem={(item, index) => {
-                                    let displayItem = item.endsWith(".mp4") ? <div index={index} className="clickable" onClick={this.handleOnclick}>{item}</div> : <CopyToClipboard onCopy={() => message.info("copied")} text={`https://${window.location.host}/btp/file${window.location.search}`}><div className="clickable">{item}</div></CopyToClipboard>
+                                    let displayItem = canPlay(item) ? <div index={index} className="clickable" onClick={this.handleOnclick}>{item}</div> : <CopyToClipboard onCopy={() => message.info("copied")} text={`https://${window.location.host}/btp/file${window.location.search}`}><div className="clickable">{item}</div></CopyToClipboard>
                                     return <List.Item>
                                     {
                                         index.toString() === this.state.index ?

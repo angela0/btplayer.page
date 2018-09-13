@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import './App.css';
 import { Redirect } from 'react-router-dom';
-import cookie from "react-cookies";
 import { message } from 'antd';
-import 'antd/lib/message/style/css';
+import './App.css';
+import 'antd/dist/antd.css';
+
 
 class App extends Component {
-    constructor (props) {
+    constructor (props, context) {
         super(props);
         const lct = this.props.location;
         this.url = `${lct.pathname}${lct.search}${lct.hash}`;
@@ -15,16 +15,12 @@ class App extends Component {
             hash: "",
             doSearch: false,
             doInfo: false,
+            login: this.props.login,
         }
     }
 
-    componentWillMount() {
-        const id = cookie.load('id');
-        let login = id ? true : false;
-        this.setState({login});
-    }
     componentDidMount() {
-        document.title = "BTplayer"
+        document.title = "BTPlayer"
     }
 
     handleSearch = (e) => {
@@ -79,35 +75,35 @@ class App extends Component {
             <div className="App">
             {!login && <Redirect push to={{
                 pathname: "/login",
-                from: this.url,
+                    from: this.url,
             }} /> }
             {doSearch && <Redirect push to={{
                 pathname: "/search",
-                search: `?keyword=${keyword}`
+                    search: `?keyword=${keyword}`
             }} /> }
             {doInfo && <Redirect push to={{
                 push: true,
-                pathname: "/info",
-                search: `?hash=${this.state.hash}`
+                    pathname: "/info",
+                    search: `?hash=${this.state.hash}`
             }} /> }
             <div className="container">
             <section className="app__body">
-                <input
-                    className="input"
-                    defaultValue="Input Search"
-                    onKeyDown={this.handleSearch}
-                    onFocus={this.handleFocus}
-                    onBlur={this.handleBlur}
-                    onChange={this.handleChange}
-                />
-                <input
-                    className="input"
-                    defaultValue="Paste InfoHash"
-                    onKeyDown={this.handleInfo}
-                    onFocus={this.handleInfoFocus}
-                    onBlur={this.handleInfoBlur}
-                    onChange={this.handleInfoChange}
-                />
+            <input
+            className="App-input"
+            defaultValue="Input Search"
+            onKeyDown={this.handleSearch}
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
+            onChange={this.handleChange}
+            />
+            <input
+            className="App-input App-input-last"
+            defaultValue="Paste InfoHash"
+            onKeyDown={this.handleInfo}
+            onFocus={this.handleInfoFocus}
+            onBlur={this.handleInfoBlur}
+            onChange={this.handleInfoChange}
+            />
             </section>
             </div>
             </div>

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import cookie from "react-cookies";
 import { List, Spin, message } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { canPlay } from '../utils/utils';
+
 import 'antd/lib/message/style/css';
 import './Info.css';
 
@@ -15,6 +16,7 @@ class Info extends Component {
         this.hash = search.get("hash");
         this.state = {
             loading: true,
+            login: this.props.login,
             info: {
                 name: "",
                 size: "",
@@ -26,23 +28,18 @@ class Info extends Component {
     }
 
     componentWillMount() {
-        const id = cookie.load('id');
-        let login = id ? true : false;
-        this.setState({login});
-        fetch(`/btp/info?hash=${this.hash}`, {
-            method: "GET",
-        }).then( response => {
-            // if (response.status === 403) {
-            //     this.setState({login: false});
-            //     return
-            // }
-            if (!response.ok) {
-                throw response.headers.get("X-Message")
-            }
-        }).catch( err => {
-            message.error(err);
-            return
-        })
+        if (this.props.login) {
+            fetch(`/btp/info?hash=${this.hash}`, {
+                method: "GET",
+            }).then( response => {
+                if (!response.ok) {
+                    throw response.headers.get("X-Message")
+                }
+            }).catch( err => {
+                message.error(err);
+                return
+            });
+        }
     }
 
     componentDidMount() {
@@ -66,7 +63,6 @@ class Info extends Component {
             ws.send(this.hash);
         }
     }
-
 
     render() {
         const {login, loading} = this.state;
@@ -99,7 +95,7 @@ class Info extends Component {
                     dataSource={this.state.info.files}
                     renderItem={(item, index) => (
                         <List.Item>
-                            {item.endsWith(".mp4") ?
+                            {canPlay(item) ?
                                 <a href={`/player?hash=${this.state.info.infohash}&index=${index}`}>{item}</a> :
                                 <CopyToClipboard onCopy={() => message.info("copied")} text={`https://${window.location.host}/btp/file${window.location.search}&index=${index}`}><div className="clickable">{item}</div></CopyToClipboard>
                             }

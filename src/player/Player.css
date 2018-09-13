@@ -1,3 +1,10 @@
+.Player-video {
+    margin: 50px auto;
+}
+.video-react {
+    margin: auto;
+}
+
 .clickable {
     cursor: pointer;
 }

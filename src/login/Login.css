@@ -1,195 +1,57 @@
 * {
     box-sizing: border-box;
-}
-
-.container {
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
-    width: 970px !important;
+    font-family: "'Museo Sans',Arial,Helvetica,sans-serif";
 }
 
 .login {
-  background: url(../img/imac.png) 0 0 no-repeat;
-  background-size: 940px 778px;
-  color: #ffffff;
-  margin-bottom: 77px;
-  padding: 38px 38px 267px;
-  position: relative;
-}
-.login-screen {
-  background-color: #1abc9c;
-  min-height: 473px;
-  padding: 123px 199px 33px 306px;
-}
-.login-icon {
-  left: 200px;
-  position: absolute;
-  top: 160px;
-  width: 96px;
-}
-.login-icon > img {
-  display: block;
-  margin-bottom: 6px;
-  width: 100%;
-}
-.login-icon > h4 {
-  font-size: 17px;
-  font-weight: 300;
-  line-height: 34px;
-  opacity: .95;
-}
-.login-icon > h4 small {
-  color: inherit;
-  display: block;
-  font-size: inherit;
-  font-weight: 700;
-}
-.login-form {
-  background-color: #edeff1;
-  padding: 24px 23px 20px;
-  position: relative;
-  border-radius: 6px;
-}
-.login-form .control-group {
-  margin-bottom: 6px;
-  position: relative;
-}
-.login-form .login-field {
-  border-color: transparent;
-  font-size: 17px;
-  text-indent: 3px;
-}
-.login-form .login-field:focus {
-  border-color: #1abc9c;
-}
-.login-form .login-field:focus + .login-field-icon {
-  color: #1abc9c;
-}
-.login-form .login-field-icon {
-  color: #bfc9ca;
-  font-size: 16px;
-  position: absolute;
-  right: 15px;
-  top: 3px;
-  -webkit-transition: all .25s;
-          transition: all .25s;
-}
-.login-link {
-  color: #bfc9ca;
-  display: block;
-  font-size: 13px;
-  margin-top: 15px;
-  text-align: center;
-}
-@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (-moz-min-device-pixel-ratio: 2), only screen and (-o-min-device-pixel-ratio: 3/2), only screen and (-o-min-device-pixel-ratio: 2/1), only screen and (-moz-min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 1.5), only screen and (min-device-pixel-ratio: 2) {
-  .login {
-    background-image: url(../img/imac-2x.png);
-  }
-}
-.fui-user:before {
-  content: "\e631";
-}
-.fui-lock:before {
-  content: "\e633";
+    width: 50%;
+    border-radius: 5px;
+    margin: 100px auto;
+    background-color: #E0E0E0;
 }
 
-.btn {
-  border: none;
-  font-size: 15px;
-  font-weight: normal;
-  line-height: 1.4;
-  border-radius: 4px;
-  text-align: center;
-  padding: 10px 15px;
-  -webkit-font-smoothing: subpixel-antialiased;
-  -webkit-transition: border 0.25s linear, color 0.25s linear, background-color 0.25s linear;
-          transition: border 0.25s linear, color 0.25s linear, background-color 0.25s linear;
+.login > header {
+    position: relative;
+    font-size: 1.125em;
+    line-height: 1.3333333333;
+    font-weight: bold;
+    color: #fff;
+    background: #6d6e70;
+    padding: 1em;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
-.btn:hover,
-.btn:focus {
-  outline: none;
-  color: #ffffff;
-}
-.btn:active,
-.btn.active {
-  outline: none;
-  box-shadow: none;
-}
-.btn:focus:active {
-  outline: none;
-}
-.btn-primary {
-  color: #ffffff;
-  background-color: #1abc9c;
-}
-.btn-primary:hover,
-.btn-primary.hover,
-.btn-primary:focus,
-.btn-primary:active,
-.btn-primary.active,
-.open > .dropdown-toggle.btn-primary {
-  color: #ffffff;
-  background-color: #48c9b0;
-  border-color: #48c9b0;
-}
-.btn-primary:active,
-.btn-primary.active,
-.open > .dropdown-toggle.btn-primary {
-  background: #16a085;
-  border-color: #16a085;
+.login > header > h1 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #FFF;
 }
 
-.btn-lg,
-.btn-group-lg > .btn {
-  padding: 10px 19px;
-  font-size: 17px;
-  line-height: 1.471;
-  border-radius: 6px;
-}
-.btn-block {
-  white-space: normal;
-  display: block;
-  width: 100%;
+.group {
+    margin-top: 50px;
 }
 
-.form-group {
-  position: relative;
-  margin-bottom: 20px;
+.group > label {
+    margin-left: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    width: 80px;
+    display: inline-block;
 }
-.form-control {
-  width: 100%;
-  border: 2px solid #bdc3c7;
-  color: #34495e;
-  font-family: "Lato", Helvetica, Arial, sans-serif;
-  font-size: 15px;
-  line-height: 1.467;
-  padding: 8px 12px;
-  height: 42px;
-  border-radius: 6px;
-  box-shadow: none;
-  -webkit-transition: border 0.25s linear, color 0.25s linear, background-color 0.25s linear;
-          transition: border 0.25s linear, color 0.25s linear, background-color 0.25s linear;
-}
-.form-group.focus .form-control,
-.form-control:focus,
-.form-group.focus .select2-search input[type="text"],
-.select2-search input[type="text"]:focus {
-  border-color: #1abc9c;
-  outline: 0;
-  box-shadow: none;
+.group > input {
+    margin-left: 100px;
+    display: inline-block;
+    padding: 0.5em;
+    background-color: #FFF;
+    width: 44%;
+    word-spacing: normal;
 }
 
-label {
-  font-weight: normal;
-  font-size: 15px;
-  line-height: 2.3;
-}
-
-.form-group.focus .form-control,
-.form-control:focus, {
-  border-color: #1abc9c;
-  outline: 0;
-  box-shadow: none;
+.last  {
+    text-align: center;
+    margin-bottom: 20px
 }

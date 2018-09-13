@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import cookie from "react-cookies";
 import { Spin, Button, message } from 'antd';
 import { List } from 'antd';
 import 'antd/lib/spin/style/css';
@@ -17,7 +16,7 @@ class Search extends Component {
         this.keyword = search.get("keyword");
         this.state = {
             page: 1,
-            login: false,
+            login: this.props.login,
             dataSource: [],
             loading: true,
             loadingMore: false,
@@ -27,18 +26,17 @@ class Search extends Component {
     }
 
     componentWillMount() {
-        const id = cookie.load('id');
-        let login = id ? true : false;
-        this.setState({login});
 
         this.keyword = this.keyword === null ? "" : this.keyword;
-        this.getData((data) => {
-            for (let item of data) {
-                localStorage.setItem(item.infohash, item);
-            }
-            const dataSource = this.state.dataSource.concat(data);
-            this.setState({dataSource, loading: false});
-        });
+        if (this.props.login) {
+            this.getData((data) => {
+                for (let item of data) {
+                    localStorage.setItem(item.infohash, item);
+                }
+                const dataSource = this.state.dataSource.concat(data);
+                this.setState({dataSource, loading: false});
+            });
+        }
     }
     componentDidMount() {
         document.title = "Search"

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import "./Login.css";
 import { Redirect } from 'react-router-dom';
-import LoginIcon from '../img/icon.png';
-import { message } from 'antd';
+import { message, Button, Input } from 'antd';
 import cookie from "react-cookies";
+import "./Login.css";
 
 class Login extends Component {
     constructor (props) {
@@ -15,16 +14,12 @@ class Login extends Component {
             this.from = "/";
         }
         this.state = {
-            "username": "",
-            "password": "",
+            login: this.props.login,
+            username: "",
+            password: "",
         }
     }
 
-    componentWillMount() {
-        const id = cookie.load('id');
-        let login = id ? true : false;
-        this.setState({login});
-    }
     componentDidMount() {
         document.title = "Login"
     }
@@ -38,11 +33,15 @@ class Login extends Component {
             }
         }).then( response => {
             if (!response.ok) {
-                throw response.status;
+                throw response.headers.get('X-Message');
+            }
+            const username = cookie.load("name");
+            if (this.props.action !== null) {
+                this.props.action(true, username);
             }
             this.setState({login: true});
         }).catch( err => {
-            message.error(err.message);
+            message.error(err);
         });
     }
 
@@ -57,27 +56,25 @@ class Login extends Component {
         return (
             <div className="container">
             {
-                login ? <Redirect to={this.from} /> : null
+                login && <Redirect to={this.from} />
             }
             <div className="login">
-            <div className="login-screen">
-            <div className="login-icon">
-            <img src={LoginIcon} alt="Welcome to Mail App" />
-            <h4>Welcome to <small>Big App</small></h4>
-            </div>
-
-            <div className="login-form">
-            <div className="form-group">
-            <input type="text" className="form-control login-field" value={this.state.username} placeholder="Enter your name" id="username" onChange={this.handleInputChange}/>
-            </div>
-
-            <div className="form-group">
-            <input type="password" className="form-control login-field" value={this.state.passsword} placeholder="Password" id="password" onChange={this.handleInputChange}/>
-            </div>
-
-            <a className="btn btn-primary btn-lg btn-block" onClick={this.handleLogin}>Log in</a>
-            </div>
-            </div>
+                <header>
+                    <h1>Log In To Your Account</h1>
+                </header>
+                <fieldset>
+                    <div className="group username">
+                        <label>Username</label>
+                        <Input id="username" type="text" placeholder="Username" onChange={this.handleInputChange} />
+                    </div>
+                    <div className="group">
+                        <label>Password</label>
+                        <Input id="password" type="password" placeholder="Password" onChange={this.handleInputChange} />
+                    </div>
+                    <div className="group last">
+                        <Button type="primary" onClick={this.handleLogin}>Login</Button>
+                    </div>
+                </fieldset>
             </div>
             </div>
         )
