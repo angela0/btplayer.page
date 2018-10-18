@@ -27,9 +27,11 @@ class Main extends Component {
     }
     componentWillMount() {
         const {id, name} = cookie.loadAll();
-        if (id !== "" && name !== "") {
+        if (id && name) {
             this.setState({login: true, username: name});
-            fetch(`/btp/login`).then( response => {
+            fetch(`/btp/login`, {
+                credentials: 'include',
+            }).then( response => {
                 if (response.status === 403) {
                     cookie.remove("id");
                     cookie.remove("name");
@@ -47,7 +49,9 @@ class Main extends Component {
     }
 
     handleLogout = (e) => {
-        fetch(`/btp/logout`).then(response => {
+        fetch(`/btp/logout`, {
+            credentials: 'include',
+        }).then(response => {
             if (!response.ok) {
                 throw response.headers.get('X-Message');
             }

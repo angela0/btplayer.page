@@ -4,8 +4,6 @@
   "private": true,
   "dependencies": {
     "antd": "^3.8.1",
-    "history": "^4.7.2",
-    "local-storage": "^1.4.2",
     "react": "^16.4.2",
     "react-cookies": "^0.1.0",
     "react-copy-to-clipboard": "^5.0.1",
@@ -25,8 +23,8 @@
   "homepage": "",
   "proxy": {
     "/btp/ws": {
-        "target": "wss://bt.tobet.club/",
-        "ws": true,
+      "target": "wss://bt.tobet.club/",
+      "ws": true,
       "secure": false
     },
     "/btp/*": {

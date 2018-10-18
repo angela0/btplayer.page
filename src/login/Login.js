@@ -26,6 +26,7 @@ class Login extends Component {
 
     handleLogin = () => {
         fetch(`/btp/login`, {
+            credentials: 'include',
             method: "POST",
             body: `username=${encodeURIComponent(this.state.username)}&password=${encodeURIComponent(this.state.password)}`,
             headers: {

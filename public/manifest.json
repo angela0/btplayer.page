@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "BTPlayer",
+  "name": "Play BT video online",
   "icons": [
     {
       "src": "favicon.ico",

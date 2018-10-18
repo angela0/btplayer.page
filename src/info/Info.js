@@ -30,11 +30,12 @@ class Info extends Component {
     componentWillMount() {
         if (this.props.login) {
             fetch(`/btp/info?hash=${this.hash}`, {
-                method: "GET",
+                credentials: 'include',
             }).then( response => {
                 if (!response.ok) {
                     throw response.headers.get("X-Message")
                 }
+                this.makeWs();
             }).catch( err => {
                 message.error(err);
                 return
@@ -44,7 +45,9 @@ class Info extends Component {
 
     componentDidMount() {
         document.title = "Torrent Info"
+    }
 
+    makeWs = () => {
         const schema = window.location.protocol === "https:" ? "wss" : "ws";
         let ws = new WebSocket(`${schema}://${window.location.host}/btp/ws`);
         ws.onmessage = (e) => {

@@ -53,7 +53,7 @@ class App extends Component {
         e.target.value = "";
     }
     handleInfoBlur = (e) => {
-        e.target.value = "Paste Search"
+        e.target.value = "Paste InfoHash"
     }
     handleInfoChange = (e) => {
         const hash = e.target.value;

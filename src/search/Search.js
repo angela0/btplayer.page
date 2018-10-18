@@ -49,7 +49,7 @@ class Search extends Component {
     getData = (callback) => {
         let {page} = this.state;
         fetch(`/btp/search?keyword=${this.keyword}&page=${page}`, {
-            method: "GET",
+            credentials: 'include',
         }).then( response => {
             if (!response.ok) {
                 throw response.headers.get("X-Message")
