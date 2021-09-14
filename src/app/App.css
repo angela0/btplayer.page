@@ -18,16 +18,16 @@
 }
 
 .App-input {
-    margin: 200px auto 0px auto;
+    margin: 100px auto 0px auto;
     background-color: #C74907;
     border: 5px solid #C74907;
     border-radius: 5px;
     color: #FFF;
-    font-size: 50px;
-    height: 50px;
+    font-size: 35px;
     padding: 4px 18px;
-    width: 850px;
+    width: 100%;
     text-align: center;
+    display: inline-block;
 }
 .App-input-last {
     margin-bottom: 50px;

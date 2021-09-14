@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { List, Spin, message } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { canPlay } from '../utils/utils';
@@ -28,43 +28,52 @@ class Info extends Component {
     }
 
     componentWillMount() {
+        let v = localStorage.getItem(this.hash);
+        while (v) {
+            try {
+                let info = JSON.parse(v);
+                this.setState({info, loading: false});
+            } catch(e) {
+                localStorage.removeItem(this.hash);
+                break;
+            }
+            return;
+        }
         if (this.props.login) {
             fetch(`/btp/info?hash=${this.hash}`, {
+                method: "PUT",
                 credentials: 'include',
             }).then( response => {
                 if (!response.ok) {
                     throw response.headers.get("X-Message")
                 }
-                this.makeWs();
+                this.props.wsSend({"type": "info", "data": this.hash});
             }).catch( err => {
                 message.error(err);
-                return
             });
+            return
         }
     }
 
     componentDidMount() {
         document.title = "Torrent Info"
     }
+    componentWillReceiveProps(newProps) {
+        if (newProps.wsData !== null) {
+            this.processWsData(newProps.wsData);
+        }
+    }
 
-    makeWs = () => {
-        const schema = window.location.protocol === "https:" ? "wss" : "ws";
-        let ws = new WebSocket(`${schema}://${window.location.host}/btp/ws`);
-        ws.onmessage = (e) => {
-            let info = JSON.parse(e.data);
-            localStorage.setItem(info.infohash, e.data);
-            info.size = ((bytes) => {
-                const units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-                let l = 0, n = parseInt(bytes, 10) || 0;
-                while(n >= 1024 && ++l)
-                    n = n/1024;
-                return(n.toFixed(n >= 10 || l < 1 ? 0 : 1) + ' ' + units[l]);
-            })(info.size);
-            this.setState({info, loading: false});
-        }
-        ws.onopen = (e) => {
-            ws.send(this.hash);
-        }
+    processWsData = (info) => {
+        info.size = ((bytes) => {
+            const units = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+            let l = 0, n = parseInt(bytes, 10) || 0;
+            while(n >= 1024 && ++l)
+                n = n/1024;
+            return(n.toFixed(n >= 10 || l < 1 ? 0 : 1) + ' ' + units[l]);
+        })(info.size);
+        localStorage.setItem(info.infohash, JSON.stringify(info));
+        this.setState({info, loading: false});
     }
 
     render() {
@@ -83,13 +92,14 @@ class Info extends Component {
                     renderItem={item => (
                         <List.Item
                             key={item.infohash}
-                            extra={item.thumb && <img width={272} alt="logo" src={item.thumb} />}
+                            extra={item.thumb && <img alt="logo" src={item.thumb} />}
                         >
                             <List.Item.Meta
                                 title={item.name}
                                 description={item.size}
+                                className="word-break"
                             />
-                        {item.infohash}
+                            <div className="word-break">{item.infohash}</div>
                         </List.Item>
                     )}
                 />
@@ -99,7 +109,7 @@ class Info extends Component {
                     renderItem={(item, index) => (
                         <List.Item>
                             {canPlay(item) ?
-                                <a href={`/player?hash=${this.state.info.infohash}&index=${index}`}>{item}</a> :
+                                <Link to={`/player?hash=${this.state.info.infohash}&index=${index}`}>{item}</Link> :
                                 <CopyToClipboard onCopy={() => message.info("copied")} text={`https://${window.location.host}/btp/file${window.location.search}&index=${index}`}><div className="clickable">{item}</div></CopyToClipboard>
                             }
                         </List.Item>

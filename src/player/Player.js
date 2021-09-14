@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import { Player } from 'video-react';
+import { Redirect, Link } from 'react-router-dom';
+import {
+    Player,
+    BigPlayButton,
+    PlaybackRateMenuButton,
+    ControlBar
+} from 'video-react';
 import { Drawer, Button, List, message } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { canPlay } from '../utils/utils';
+import { canPlay, getHashMeta } from '../utils/utils';
 
 import "video-react/dist/video-react.css";
 import 'antd/lib/drawer/style/css';
@@ -23,7 +28,8 @@ class VPlayer extends Component {
             login: this.props.login,
             index: index ? index : 0,
             drawVisible: false,
-            noinfo: this.info ? false : true,
+            // noinfo: this.info ? false : true,
+            noinfo: false,
         };
     }
 
@@ -61,8 +67,9 @@ class VPlayer extends Component {
 
     render() {
         const {login, index, drawVisible, noinfo} = this.state;
+        let title = getHashMeta(this.hash, "name");
         return (
-            <div className="App">
+            <div className="player">
                 {!login && <Redirect push to={{
                     pathname: "/login",
                     from: this.url,
@@ -75,6 +82,9 @@ class VPlayer extends Component {
 
                 <div className="container">
                     <section>
+                        <Link to={`/info?hash=${this.hash}`}>
+                            <div className="word-break" style={{marginTop: "10px"}}>{title}</div>
+                        </Link>
                         <div className="Player-video">
                             <Player
                                 fluid={false}
@@ -83,7 +93,13 @@ class VPlayer extends Component {
                                 ref="player"
                                 playsInline
                                 src={`/btp/file?hash=${this.hash}&index=${index}`}
-                            />
+                            >
+                                <BigPlayButton position="center" />
+                                <VolumeMenuButton vertical />
+                                <ControlBar>
+                                    <PlaybackRateMenuButton rates={[2, 1.5, 1, 0.5, 0.1]} />
+                                </ControlBar>
+                            </Player>
                             <Button type="primary" onClick={this.showDrawer}>Open</Button>
                         </div>
                         <Drawer

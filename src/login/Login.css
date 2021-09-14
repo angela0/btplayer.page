@@ -10,6 +10,12 @@
     background-color: #E0E0E0;
 }
 
+@media screen and (max-width: 600px) {
+    .login {
+        width: 100%;
+    }
+}
+
 .login > header {
     position: relative;
     font-size: 1.125em;
@@ -35,19 +41,28 @@
     margin-top: 50px;
 }
 
-.group > label {
+.group > .login-left {
+    display: inline-block;
+    width: 25%;
+}
+.group > .login-right {
+    display: inline-block;
+    width: 75%;
+}
+
+.login-left > label {
     margin-left: 30px;
     font-size: 16px;
     font-weight: bold;
     width: 80px;
-    display: inline-block;
 }
-.group > input {
-    margin-left: 100px;
-    display: inline-block;
+.login-right > input {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
     padding: 0.5em;
     background-color: #FFF;
-    width: 44%;
+    width: 60%;
     word-spacing: normal;
 }
 

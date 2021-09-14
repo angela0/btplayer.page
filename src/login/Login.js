@@ -65,12 +65,18 @@ class Login extends Component {
                 </header>
                 <fieldset>
                     <div className="group username">
+                        <div className="login-left">
                         <label>Username</label>
+                        </div>
+                        <div className="login-right">
                         <Input id="username" type="text" placeholder="Username" onChange={this.handleInputChange} />
+                        </div>
                     </div>
                     <div className="group">
-                        <label>Password</label>
+                        <div className="login-left"> <label>Password</label> </div>
+                        <div className="login-right">
                         <Input id="password" type="password" placeholder="Password" onChange={this.handleInputChange} />
+                        </div>
                     </div>
                     <div className="group last">
                         <Button type="primary" onClick={this.handleLogin}>Login</Button>
