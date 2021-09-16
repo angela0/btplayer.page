@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { List, Spin, message } from 'antd';
+import Lightbox from "react-awesome-lightbox";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { canPlay } from '../utils/utils';
+import { canPlay, isPic } from '../utils/utils';
 
+
+// You need to import the CSS only once
+import "react-awesome-lightbox/build/style.css";
 import 'antd/lib/message/style/css';
 import './Info.css';
 
@@ -24,6 +28,7 @@ class Info extends Component {
                 thumb: "",
                 files: [],
             },
+            imageSrc: "",
         }
     }
 
@@ -75,9 +80,17 @@ class Info extends Component {
         localStorage.setItem(info.infohash, JSON.stringify(info));
         this.setState({info, loading: false});
     }
+    
+    clickImage = (index) => {
+        this.setState({imageSrc: `/btp/file${window.location.search}&index=${index}`});
+    }
+
+    closeImage = () => {
+        this.setState({imageSrc: ""});
+    }
 
     render() {
-        const {login, loading} = this.state;
+        const {login, loading, imageSrc} = this.state;
         return (
             <div className="info">
                 {!login && <Redirect push to={{
@@ -109,12 +122,21 @@ class Info extends Component {
                     renderItem={(item, index) => (
                         <List.Item>
                             {canPlay(item) ?
-                                <Link to={`/player?hash=${this.state.info.infohash}&index=${index}`}>{item}</Link> :
-                                <CopyToClipboard onCopy={() => message.info("copied")} text={`https://${window.location.host}/btp/file${window.location.search}&index=${index}`}><div className="clickable">{item}</div></CopyToClipboard>
+                                <Link to={`/player?hash=${this.state.info.infohash}&index=${index}`}>{item}</Link>
+                                :
+                                isPic(item) ?
+                                    <div style={{cursor: "zoom-in"}} onClick={()=>this.clickImage(index)}>{item}</div>
+                                    :
+                                    <CopyToClipboard 
+                                        onCopy={() => message.info("copied")}
+                                        text={`https://${window.location.host}/btp/file${window.location.search}&index=${index}`}>
+                                        <div className="clickable">{item}</div>
+                                    </CopyToClipboard>
                             }
                         </List.Item>
                     )}
                 />
+                <Lightbox image={imageSrc} onClose={this.closeImage} />
             </div>
         );
     }

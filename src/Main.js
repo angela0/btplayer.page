@@ -107,6 +107,7 @@ class Main extends Component {
             cookie.remove('id');
             cookie.remove('name');
             this.setState({login: false, tologin: true});
+            localStorage.clear();
         }).catch( err => {
             message.error(err);
         });

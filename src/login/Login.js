@@ -40,6 +40,7 @@ class Login extends Component {
             if (this.props.action !== null) {
                 this.props.action(true, username);
             }
+            localStorage.clear();
             this.setState({login: true});
         }).catch( err => {
             message.error(err);
