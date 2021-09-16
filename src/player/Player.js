@@ -4,7 +4,8 @@ import {
     Player,
     BigPlayButton,
     PlaybackRateMenuButton,
-    ControlBar
+    ControlBar,
+    VolumeMenuButton,
 } from 'video-react';
 import { Drawer, Button, List, message } from 'antd';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -79,7 +80,6 @@ class VPlayer extends Component {
                     search: `hash=${this.hash}`,
                     from: this.url,
                 }} /> }
-
                 <div className="container">
                     <section>
                         <Link to={`/info?hash=${this.hash}`}>
@@ -88,16 +88,15 @@ class VPlayer extends Component {
                         <div className="Player-video">
                             <Player
                                 fluid={false}
-                                width={791}
-                                height={444}
+                                width="100%"
+                                height="100%"
                                 ref="player"
-                                playsInline
                                 src={`/btp/file?hash=${this.hash}&index=${index}`}
                             >
                                 <BigPlayButton position="center" />
-                                <VolumeMenuButton vertical />
                                 <ControlBar>
                                     <PlaybackRateMenuButton rates={[2, 1.5, 1, 0.5, 0.1]} />
+                                    <VolumeMenuButton vertical />
                                 </ControlBar>
                             </Player>
                             <Button type="primary" onClick={this.showDrawer}>Open</Button>
