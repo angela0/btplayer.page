@@ -115,14 +115,11 @@ class Main extends Component {
 
     render() {
         const {login, username, loading} = this.state;
-        // const login = true;
-        // const username = "angela";
-        // const loading = false;
         const menu = (
-            <SubMenu title={<span>{username}</span>}>
+            <Menu>
             <Menu.Item key="1"><Link to="/infos">infos</Link></Menu.Item>
             <Menu.Item key="2" onClick={this.handleLogout}>Logout</Menu.Item>
-            </SubMenu>
+            </Menu>
         )
         return (
             <Router>
@@ -132,21 +129,19 @@ class Main extends Component {
                     <Col xs={2} sm={4} md={6} lg={8} xl={10}>
                         <Link to="/"><div className="Main-logo"></div></Link>
                     </Col>
-                    <Col style={{ lineHeight: '64px' }} >
+                    <Col flex="auto" style={{ lineHeight: '64px' }} >
                         <Menu
                             theme="dark"
                             mode="horizontal"
-                            style={{ lineHeight: '64px', float: 'right' }}
+                            style={{ cursor: 'pointer', lineHeight: '64px', float: 'right' }}
                         >
                             
                             {login ?
-                                // <Dropdown overlay={menu}> <div>{username}</div> </Dropdown>
-                                <SubMenu title={<span>{username}</span>}>
-                                    <Menu.Item key="1"><Link to="/infos">infos</Link></Menu.Item>
-                                    <Menu.Item key="2" onClick={this.handleLogout}>Logout</Menu.Item>
-                                </SubMenu>
+                                <Dropdown overlay={menu}>
+                                    <div>{username}</div>
+                                </Dropdown>
                                 :
-                                <Menu.Item><Link to="/login">Login</Link></Menu.Item>
+                                <Menu.Item key="menu-login"><Link to="/login">Login</Link></Menu.Item>
                             }
                             
                         </Menu>
